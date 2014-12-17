@@ -4,9 +4,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
-
 import javafx.application.Application;
-
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -18,11 +16,9 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import javafx.util.Duration;
 
 public class ComunicadoGUI extends Application {
@@ -37,6 +33,8 @@ public class ComunicadoGUI extends Application {
     private Image minus;
     private Double screenWidth;
     private Double screenHeight;
+    private Double xOffset;
+    private Double yOffset;
     private String texto;
 
     public ComunicadoGUI() {}
@@ -101,8 +99,22 @@ public class ComunicadoGUI extends Application {
     private void initEventHandlers() {
         buttonClose.setOnAction(event -> stage.close());
         buttonMinus.setOnAction(event -> stage.setIconified(true));
+        content.setOnMousePressed(event -> {
+            if(event.isPrimaryButtonDown()){
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+                scene.setCursor(Cursor.MOVE);
+            }
+        });
+        content.setOnMouseDragged(event -> {
+            if(event.isPrimaryButtonDown()){
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
+        content.setOnMouseReleased(event -> scene.setCursor(Cursor.DEFAULT));
     }
-
+    
     private void initEffects() {
         ScaleTransition scale = new ScaleTransition(Duration.millis(1200), content);
         scale.setFromX(0);
