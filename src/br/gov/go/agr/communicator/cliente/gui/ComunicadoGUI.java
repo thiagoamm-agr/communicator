@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -54,6 +55,7 @@ public class ComunicadoGUI extends Application {
         stage.setScene(scene);
         stage.setTitle(texto);
         stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initModality(Modality.WINDOW_MODAL);
         stage.show();
         initEffects();
     }
