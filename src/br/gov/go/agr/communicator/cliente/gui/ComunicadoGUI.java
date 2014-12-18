@@ -1,8 +1,10 @@
 package br.gov.go.agr.communicator.cliente.gui;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.scene.Cursor;
@@ -13,6 +15,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -55,7 +58,8 @@ public class ComunicadoGUI extends Application {
         stage.setScene(scene);
         stage.setTitle(texto);
         stage.initStyle(StageStyle.TRANSPARENT);
-        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setAlwaysOnTop(true);
         stage.show();
         initEffects();
     }
@@ -94,13 +98,46 @@ public class ComunicadoGUI extends Application {
         content.setLayoutX((screenWidth - 700) / 2);
         content.setLayoutY((screenHeight - 400) / 2);
         buttonClose.setLayoutX(700);
-        buttonMinus.setLayoutX(670);
+        buttonMinus.setLayoutX(667);
         buttonMinus.setLayoutY(-4);
     }
 
     private void initEventHandlers() {
-        buttonClose.setOnAction(event -> stage.close());
-        buttonMinus.setOnAction(event -> stage.setIconified(true));
+        buttonClose.setOnAction(event -> {
+            ScaleTransition scale = new ScaleTransition(Duration.millis(400), content);
+            scale.setToX(0.0);
+            scale.setToY(0.0);
+            scale.play();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(350), closeOnFinish -> stage.close()));
+            timeline.play();
+        });
+        buttonClose.setOnMouseEntered(event -> buttonClose.setEffect(new DropShadow()));
+        buttonClose.setOnMouseExited(event -> buttonClose.setEffect(null));
+        buttonMinus.setOnAction(event ->{
+            ScaleTransition scale = new ScaleTransition(Duration.millis(400), content);
+            scale.setToX(0.2);
+            scale.setToY(0.2);
+            scale.play();
+            RotateTransition rotate = new RotateTransition(Duration.millis(750), content);
+            rotate.setByAngle(360);
+            rotate.play();
+            TranslateTransition translate = new TranslateTransition(Duration.millis(750), content);
+            translate.setToY(500);
+            translate.play();
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(750), backToNormal -> {
+                stage.setIconified(true);
+                ScaleTransition scale2 = new ScaleTransition(Duration.millis(50), content);
+                scale2.setToX(1.0);
+                scale2.setToY(1.0);
+                scale2.play();
+                TranslateTransition translate2 = new TranslateTransition(Duration.millis(50), content);
+                translate2.setToY(0);
+                translate2.play();
+            }));
+            timeline.play();
+        });
+        buttonMinus.setOnMouseEntered(event -> buttonMinus.setEffect(new DropShadow()));
+        buttonMinus.setOnMouseExited(event -> buttonMinus.setEffect(null));
         content.setOnMousePressed(event -> {
             if(event.isPrimaryButtonDown()){
                 xOffset = event.getSceneX();
@@ -118,7 +155,7 @@ public class ComunicadoGUI extends Application {
     }
     
     private void initEffects() {
-        ScaleTransition scale = new ScaleTransition(Duration.millis(1200), content);
+        ScaleTransition scale = new ScaleTransition(Duration.millis(1300), content);
         scale.setFromX(0);
         scale.setFromY(0);
         scale.setToX(1.0);
@@ -132,7 +169,7 @@ public class ComunicadoGUI extends Application {
         translate1.setNode(content);
         translate1.setFromY(0 - screenHeight / 2);
         translate1.setToY(screenHeight / 4);
-        TranslateTransition translate2 = new TranslateTransition(Duration.millis(400));
+        TranslateTransition translate2 = new TranslateTransition(Duration.millis(600));
         translate2.setNode(content);
         translate2.setFromY(screenHeight / 4);
         translate2.setToY(0);
