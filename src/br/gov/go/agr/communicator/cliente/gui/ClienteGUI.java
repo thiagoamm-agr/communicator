@@ -28,6 +28,7 @@ public class ClienteGUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         StackPane pane = new StackPane();
+        pane.setPrefSize(0, 0);
         pane.setStyle("-fx-background-color: transparent;");
         Scene scene = new Scene(pane);
         scene.setFill(Color.TRANSPARENT);
