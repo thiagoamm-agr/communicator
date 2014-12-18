@@ -3,11 +3,18 @@ package br.gov.go.agr.communicator.cliente.gui;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+
 import javafx.application.Application;
-import javafx.stage.Modality;
+
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import javafx.util.Duration;
+
 import br.gov.go.agr.communicator.cliente.Cliente;
 
 public class ClienteGUI extends Application {
@@ -20,8 +27,13 @@ public class ClienteGUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-    	stage.initStyle(StageStyle.TRANSPARENT);
-    	stage.show();
+        StackPane pane = new StackPane();
+        pane.setStyle("-fx-background-color: transparent;");
+        Scene scene = new Scene(pane);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.show();
         Cliente cliente = new Cliente();
         cliente.conectar();
         cliente.iniciarCaixaDeEntrada();
@@ -33,7 +45,6 @@ public class ClienteGUI extends Application {
                     if (mensagem != null) {
                         ComunicadoGUI comunicado = new ComunicadoGUI(mensagem);
                         Stage janela = new Stage();
-                        janela.initModality(Modality.WINDOW_MODAL);
                         comunicado.start(janela);
                         cliente.setMensagem(null);
                     }
