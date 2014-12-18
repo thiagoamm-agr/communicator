@@ -33,7 +33,10 @@ public class ClienteGUI extends Application {
         Scene scene = new Scene(pane);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
-        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.UTILITY);
+        stage.setMaxHeight(0);
+        stage.setMaxWidth(0);
+        stage.setX(Double.MAX_VALUE);
         stage.show();
         Cliente cliente = new Cliente();
         cliente.conectar();
