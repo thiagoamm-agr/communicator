@@ -33,11 +33,17 @@ public class ClienteGUI extends Application {
         Scene scene = new Scene(pane);
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
-        stage.initStyle(StageStyle.UTILITY);
+        String os = System.getProperty("os.name");
+        if (os.equalsIgnoreCase("linux")) {
+            stage.initStyle(StageStyle.TRANSPARENT);
+        } else {
+            stage.initStyle(StageStyle.UTILITY);
+        }
         stage.setMaxHeight(0);
         stage.setMaxWidth(0);
         stage.setX(Double.MAX_VALUE);
         stage.show();
+        stage.toFront();
         Cliente cliente = new Cliente();
         cliente.conectar();
         cliente.iniciarCaixaDeEntrada();
